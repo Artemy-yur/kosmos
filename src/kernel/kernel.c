@@ -1,0 +1,168 @@
+// GRUB header
+__attribute__((section(".multiboot")))
+const unsigned int multiboot_header[] = {
+	0x1BADB002,
+	0,
+	-(0x1BADB002)
+};
+
+// Kernel
+#include "gdt.h"
+#include "IDT_PIC.h"
+
+// api
+#include "../api/api.h"
+#include "../api/kernel_functions.h"
+
+// libs
+#include "../libs/asm.h"
+#include "../libs/io.h"
+#include "../libs/device.h"
+#include "../libs/time.h"
+
+unsigned int EXECUTE_PROGRAM = 0;
+
+// Loop
+__attribute__((section(".kernel_loop"))) void kernel_loop(void) {
+	while(1)
+	{
+		if (EXECUTE_PROGRAM == 0){
+
+		}
+
+		else{
+
+			EXECUTE_PROGRAM = 0;
+		}
+	}
+}
+
+
+
+void logo(){
+	time_sleep(500);
+	kclear();
+	const int delay = 50;
+	const int text_delay = 25;
+	kprintc("\n", 15, 0);
+	kprintc("@@@@@@                \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@                \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@   @@@@@@@      \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@ @@@@@@@        \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@@@@@@@          \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@@@@@@           \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@@@@@@@          \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@@@@@@@@@        \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@  @@@@@@@       \n", 15, 0);time_sleep(delay);
+	kprintc("@@@@@@    @@@@@@@     \n", 11, 0);time_sleep(delay);
+	kprintc("@@@@@@      @@@@@@@   \n", 11, 0);time_sleep(delay);
+	kprintc("@@@@@@        @@@@@@@ \n", 1, 0);time_sleep(delay);
+	kprintc("\n", 15, 0);time_sleep(delay);
+
+	kprintcp("@@@@@@@@@@@@             @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@            @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@             @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@            @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@           @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@            @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@           @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@          @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@           @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@          @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@         @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@          @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@         @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@        @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@         @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@        @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@       @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@        @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@       @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@      @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@       @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@      @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@     @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@      @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@     @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@    @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@     @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@    @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@   @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@    @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+	kprintcp("@@@@@@@@@@@@   @      ", 0, 5, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@  @@@@@    ", 0, 6, 15, 0, 0);
+	kprintcp("@@@@@@@@@@@@   @      ", 0, 7, 15, 0, 0);
+	time_sleep(text_delay);
+
+	kprintcp("\n", 0, 13, 15, 0, 1);
+	kprintc("K ", 15, 0);
+	time_sleep(delay);
+	kprintc("O ", 15, 0);
+	time_sleep(delay);
+	kprintc("S ", 15, 0);
+	time_sleep(delay);
+	kprintc("M ", 15, 0);
+	time_sleep(delay);
+	kprintc("O ", 15, 0);
+	time_sleep(delay);
+	kprintc("S", 15, 0);
+}
+
+void test(){
+	struct dev_info* ata = devman_get_first_device_by_specs(DEV_TYPE_VIRT, DEV_BLOCK, VIRT_STORAGE_CONTROLLER, VIRT_STORAGE_ATA_DRIVE);
+	if (ata != 0){
+		unsigned char* buffer[512] = {0};
+		_read_sector(ata->id, 0, buffer);
+		buffer[50] = 0;
+		kput(buffer);
+	}
+}
+
+// Main
+void kmain(void){
+
+	// GDT table init
+	gdt_init();
+
+	// Remap interrupts
+	PIC_remap();
+
+	// Init API
+	api_init();
+
+	// Find devices and drivers
+	devman_find_devices();
+
+	// log
+	kput("Device Manager: ");
+	kprinti(devman_get_device_count());
+	kput(" devices detected.\n");
+
+	int found_drivers = 0;
+	struct dev_info* devs = devman_get_devices();
+	for (int i = 0; i < devman_get_device_count(); i++){
+		if (devs[i].driver != 0)
+			found_drivers++;
+	}
+
+	kput("Driver Manager: ");
+	kprinti(found_drivers);
+	kput(" drivers successfully attached.\n");
+
+	test();
+
+	logo();
+
+	// Endless loop
+	kernel_loop();
+}
