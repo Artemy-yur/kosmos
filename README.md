@@ -1,4 +1,5 @@
 Kinetic Open Structure Minimal Operation System — динамичная, открытая, структурированная, минималистичная операционная система, написанная на C + ASM
+
 🚀 Как запустить ОС
 Установка зависимостей: make nasm xorriso qemu-system grub-pc-bin mtools
 
