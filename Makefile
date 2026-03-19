@@ -1,3 +1,4 @@
+
 LIB_DIRS := $(wildcard src/libs/*.c)
 OBJS := $(shell mkdir -p output; find output -name '*.o')
 
