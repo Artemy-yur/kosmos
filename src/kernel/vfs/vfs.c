@@ -8,15 +8,7 @@ unsigned int PARTITION_COUNT = 0;
 // File Full Path: 0://file.txt
 //                 PART_NUM://FILE
 
-void* fat_funcs[] = {
-       (int) vfs_mount,
-       (int) vfs_read,
-       (int) vfs_write,
-       (int) vfs_readdir,
-       (int) vfs_getpart
 
-       NULL
-};
 
 // func vfs_mount
 int vfs_mount(struct dev_info* device){
@@ -47,3 +39,11 @@ int vfs_getpart(unsigned int *dst){
        //Заглушка
        return 0;
 }
+void* fat_funcs[] = {
+       (void*)vfs_mount,
+       (void*)vfs_read,
+       (void*)vfs_write,
+       (void*)vfs_readdir,
+       (void*)vfs_getpart,
+       NULL
+   };

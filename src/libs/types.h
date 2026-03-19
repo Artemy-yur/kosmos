@@ -1,7 +1,7 @@
 #ifndef INCL_LIB_TYPES
 #define INCL_LIB_TYPES
 
-#define NULL (void*)0
+#define NULL ((void*)0)
 
 typedef unsigned long long uint64_t;
 typedef unsigned int uint32_t;

@@ -14,14 +14,6 @@
 
 
 
-void* fat_funcs[] = {
-    (void*)vfs_read,
-    (void*)vfs_write,
-    (void*)vfs_readdir,
-    (void*)vfs_getpart,
-    NULL 
-};
-
 
 int fat_init(struct dev_info* device){
     // определение файловой системы FAT12. если не определена то возврат 0, определена 1
