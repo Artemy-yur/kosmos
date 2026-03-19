@@ -161,7 +161,7 @@ void kmain(void){
 
 	test();
 
-	logo();
+	//logo();
 
 	// Endless loop
 	kernel_loop();
